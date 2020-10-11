@@ -1,0 +1,62 @@
+button {
+    border: unset;
+    background-color: unset;
+
+    &:active,
+    &:focus {
+        border: unset;
+        outline: unset;
+    }
+}
+
+.center {
+    padding-left: calc(50% - 570px);
+    padding-right: calc(50% - 570px);
+    min-width: 1140px;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-cart {
+    font-size: 2rem;
+    cursor: pointer;
+
+    .fas {
+        font-size: 2rem;
+    }
+}
+
+.products {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+
+    .product__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        p::after {
+            content: " ₽";
+        }
+    }
+
+    .btn-by {
+        border-radius: 5px;
+        border: 2px solid green;
+        background-color: rgb(124, 184, 33);
+        line-height: 1.4rem;
+        color: white;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: rgba(124, 184, 33, 0.8);
+        }
+        &:active {
+            border-style: inset;
+        }
+    }
+}
