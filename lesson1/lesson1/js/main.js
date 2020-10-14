@@ -5,11 +5,9 @@ const products = [
   { id: 4, title: 'Gamepad', price: 4500 },
 ];
 
-const renderProduct = ({ title, price, id }) => {
-  let currentDate = new Date();
-  let img = currentDate.getTime() + id;
+const renderProduct = ({ title, price, img = "https://via.placeholder.com/250x300" }) => {
   return `<div class="product__item">
-            <img src="https://picsum.photos/250/300?random=${img}" alt="">
+            <img src="${img}" alt="">
             <h3>${title}</h3>
             <p>${price}</p>
             <button class="btn-by">Добавить в корзину</button>
