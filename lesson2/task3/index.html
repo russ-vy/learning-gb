@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фастфуд</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!--
+    ### Маленький (50 рублей, 20 калорий).
+    ### Большой (100 рублей, 40 калорий). ### Гамбургер может быть с одним из нескольких видов начинок (обязательно):
+    ### С сыром (+10 рублей, +20 калорий).
+    ### С салатом (+20 рублей, +5 калорий).
+    ### С картофелем (+15 рублей, +10 калорий).
+    ### Дополнительно гамбургер можно посыпать приправой (+15 рублей, +0 калорий) и полить майонезом (+20 рублей, +5 калорий).
+    ### Напишите программу, рассчитывающую стоимость и калорийность гамбургера. Можно использовать примерную архитектуру класса из методички, но можно использовать и свою.
+-->
+    <header>
+        <h1>HAMBURGERS</h1>
+    </header>
+    <main>
+        <div class="hamburger">
+            <fieldset>
+                <legend>Размер гамбургера</legend>
+                <p>
+                    <label><input data-price="100" data-calory="40" type="radio" name="bread" id="big"
+                            checked>Большой</label>
+                    <label><input data-price="50" data-calory="20" type="radio" name="bread"
+                            id="small">Маленький</label>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Начинка</legend>
+                <p>
+                    <label><input data-price="10" data-calory="20" name="basic" type="checkbox" checked>Сыр</label>
+                    <label><input data-price="20" data-calory="5" name="basic" type="checkbox" checked>Салат</label>
+                    <label><input data-price="15" data-calory="10" name="basic" type="checkbox">Картофель</label>
+                    <label><input data-price="15" data-calory="0" name="optional" type="checkbox">Приправа</label>
+                    <label><input data-price="20" data-calory="5" name="optional" type="checkbox"
+                            checked>Майонез</label>
+                </p>
+            </fieldset>
+
+            <p class="message"></p>
+        </div>
+    </main>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
