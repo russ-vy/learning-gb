@@ -1,22 +1,12 @@
 class Hamburger {
-    constructor(container = '.hamburger') {
-        this.container = container
-        this.components = []
-        this.basic = []
-        this.optional = []
+    constructor(selector = '.btn') {
+        this.selector = selector
 
-        this._fetchComponents()
         this._render()
     }
 
-    _fetchComponents() {
-        this.components = document.querySelectorAll('input');
-        this.basic = document.querySelectorAll('input[name="basic"]');
-        this.optional = document.querySelectorAll('input[name="optional"]');
-    }
-
     _render() {
-        document.querySelector(this.container).onclick = () => { this._control }
+        document.querySelector(this.selector).addEventListener('click', event => this._control)
     }
 
     get total() {
@@ -39,7 +29,8 @@ class Hamburger {
         document.querySelector('.message').textContent = message
     }
 
-    _control() {
+    _control(event) {
+        console.log(event.target);
         let isChecked = false;
         for (let el of this.basic) {
             if (el.checked) {
@@ -51,11 +42,6 @@ class Hamburger {
         this._message(isChecked);
     }
 
-    _visibleOptional(isVisible) {
-        for (let el of this.optional) {
-            el.visible = isVisible
-        }
-    }
 }
 
 new Hamburger();
