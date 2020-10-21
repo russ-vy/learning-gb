@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+    letter-spacing: 0.5rem;
+}
+.hamburger {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+
+    fieldset {
+        flex: 1 1 40%;
+    }
+}
+
+p {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.5rem;
+
+    label {
+        line-height: 2rem;
+    }
+}
