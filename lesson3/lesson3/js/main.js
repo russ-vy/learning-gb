@@ -2,22 +2,33 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 
 // Переделать в ДЗ не использовать fetch а Promise
 let getRequest = (url, cb) => {
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status !== 200) {
-        console.log('Error');
-      } else {
-        cb(xhr.responseText);
+  new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status !== 200) {
+          reject(xhr.response)
+        } else {
+          resolve(xhr.response)
+        }
       }
-    }
-  };
-  xhr.send();
+    };
+    xhr.send();
+  })
+    .then(data => {
+      console.log(data);
+      return data;
+    })
+    .catch(err => {
+      console.log(`Error!!! ${err}`);
+    })
 };
 
-// –--------------------------------
+// getRequest(`${API}/catalogData.json`)
 
+// –--------------------------------
 class ProductList {
   #goods;
 
@@ -32,8 +43,6 @@ class ProductList {
       // this.#goods = Array.from(data);
       this.#render();
     });
-
-    console.log(this.sum());
   }
 
   // _fetchGoods() {
@@ -47,10 +56,10 @@ class ProductList {
 
   #getProducts() {
     return fetch(`${API}/catalogData.json`)
-        .then(response => response.json())
-        .catch((error) => {
-          console.log(error);
-        });
+      .then(response => response.json())
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   sum() {
@@ -71,10 +80,10 @@ class ProductList {
 }
 
 class ProductItem {
-  constructor(product, img='https://placehold.it/200x150') {
-    this.title = product.title;
+  constructor(product, img = 'https://placehold.it/200x150') {
+    this.title = product.product_name;
     this.price = product.price;
-    this.id = product.id;
+    this.id = product.id_product;
     this.img = img;
   }
 
@@ -91,3 +100,50 @@ class ProductItem {
 }
 
 const list = new ProductList();
+
+// –--------------------------------
+class CartList extends ProductList {
+  #goods;
+
+  constructor() {
+    super(container = '.cart-list');
+    this.container = container;
+
+    this.#getProducts().then((data) => {
+      this.#goods = [...data];
+      // this.#goods = Array.from(data);
+      this.#render();
+    });
+  }
+
+  #getProducts() {
+    return fetch(`${API}/getBasket.json`)
+      .then(response => response.json())
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  #render() {
+    // for (let product of this.#goods) {
+    //   const productObject = new ProductItem(product);
+
+    //   this._allProducts.push(productObject);
+
+    let HTML = `<modal id='cart-modal'></modal> `;
+    body.insertAdjacentHTML('beforeend', HTML);
+    // }
+  }
+
+  open() {
+    this.#render();
+    // body.insertAdjacentHTML('beforeend', productObject.getGoodHTML());
+  }
+}
+
+class CartItem extends ProductItem {
+
+}
+
+const cart = new CartList();
+document.querySelector('.btn-cart').addEventListener('click', cart.open());
