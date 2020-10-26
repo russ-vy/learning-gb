@@ -160,13 +160,16 @@ class CartList extends ProductList {
     document.querySelector('.cart-list').classList.toggle('visible')
   }
 
-  addProduct(el) {
+  addProduct(event) {
     fetch(`${API}/addToBasket.json`)
       .then(response => response.json())
       .then(data => {
+        /*
+          Как я могу отсюда обратится к элементам объекта CartList ?
+        */
         console.log(
           data.result
-          , el.target.parentNode.parentNode.getAttribute('data-id')
+          , event.target.parentNode.parentNode.getAttribute('data-id')
         )
       })
       .catch((error) => {
@@ -174,14 +177,22 @@ class CartList extends ProductList {
       });
   }
 
-  removeProduct(el) {
+  removeProduct(event) {
     fetch(`${API}/deleteFromBasket.json`)
       .then(response => response.json())
       .then(data => {
-        console.log(
-          data.result
-          , el.target.parentNode.parentNode.getAttribute('data-id')
-        )
+        /*
+          Как я могу отсюда обратится к элементам объекта CartList ?
+        */
+        if (data.result == 1) {
+          console.log(
+            data.result
+            , event.target.parentNode.parentNode.getAttribute('data-id')
+          )
+        }
+        else {
+          clonsole.log('Error: Удаление не выполнено!')
+        }
       })
       .catch((error) => {
         console.log(error);
