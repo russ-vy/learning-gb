@@ -101,21 +101,25 @@ const list = new ProductList();
 
 // –--------------------------------
 class CartList extends ProductList {
-  constructor(container = '.cart-list') {
+  constructor(container = '.cart-list__products') {
     super(container)
     this.amount = 0
     this.countGoods = 0
+
+    this.setup()
   }
 
-  checkCountGoods() {
-    const subEl = document.querySelector('.btn-cart sup')
-    if (this.countGoods > 0) {
-      subEl.textContent = this.countGoods
-    }
-    else {
-      subEl.textContent = ''
-      this.countGoods = 0
-    }
+  setup() {
+    let timerID = setInterval(self => {
+      if (document.querySelectorAll('.buy-btn')) {
+        clearInterval(timerID);
+
+        document.querySelector('.btn-cart').addEventListener('click', this.showSwitcher);
+        document.querySelector('.back-hiden').addEventListener('click', this.showSwitcher);
+        document.querySelectorAll('.buy-btn').forEach(el => el.addEventListener('click', aaa => this.addProduct(aaa)));
+        document.querySelectorAll('.del-btn').forEach(el => el.addEventListener('click', zzz => this.removeProduct(zzz)));
+      }
+    }, 300)
   }
 
   getProducts() {
@@ -125,7 +129,7 @@ class CartList extends ProductList {
         this.amount = data.amount
         this.countGoods = data.countGoods
         data = data.contents
-        console.log(data)
+        // console.log(data)
         return data
       })
       .catch((error) => {
@@ -136,23 +140,46 @@ class CartList extends ProductList {
   render() {
     const block = document.querySelector(this.container);
 
+    this.sum();
+    this.showCurrentCount();
+
     for (let product of this.goods) {
+      if (product.id_product in this._allProducts) { continue }
+
       const productObject = new CartItem(product);
 
-      this._allProducts.push(productObject);
+      this._allProducts[productObject.id] = productObject;
 
       block.insertAdjacentHTML('beforeend', productObject.getGoodHTML());
     }
 
-    this.setup()
+    this.showCurrentAmount();
   }
 
-  setup() {
-    document.querySelector('.btn-cart').addEventListener('click', this.showSwitcher);
-    document.querySelector('.back-hiden').addEventListener('click', this.showSwitcher);
-    this.checkCountGoods();
-    document.querySelectorAll('.buy-btn').forEach(el => el.addEventListener('click', this.addProduct))
-    document.querySelectorAll('.del-btn').forEach(el => el.addEventListener('click', this.removeProduct))
+  showCurrentAmount() {
+    const block = document.querySelector('.cart-list__amount');
+
+    if (this.amount > 0) {
+      block.innerHTML = `<h4>${this.amount} \u20bd</h4>`;
+    }
+    else {
+      block.innerHTML = '<h3> Добавьте товар в корзину! </h3>';
+    }
+  }
+
+  showCurrentCount() {
+    const subEl = document.querySelector('.btn-cart sup')
+    if (this.countGoods > 0) {
+      subEl.textContent = this.countGoods
+    }
+    else {
+      subEl.textContent = ''
+    }
+  }
+
+  sum() {
+    this.amount = this.goods.reduce((sum, { price, quantity }) => sum + (price * quantity), 0);
+    this.countGoods = this.goods.reduce((sum, { quantity }) => sum + quantity, 0);
   }
 
   showSwitcher() {
@@ -164,13 +191,40 @@ class CartList extends ProductList {
     fetch(`${API}/addToBasket.json`)
       .then(response => response.json())
       .then(data => {
-        /*
-          Как я могу отсюда обратится к элементам объекта CartList ?
-        */
-        console.log(
-          data.result
-          , event.target.parentNode.parentNode.getAttribute('data-id')
-        )
+
+        if (data.result == 1) {
+          let ID = event.target.parentNode.parentNode.getAttribute('data-id');
+
+          let findEl = this.goods.find(curEl => {
+            return curEl ? curEl.id_product == ID : false
+          });
+
+          if (findEl) {
+            findEl.quantity++;
+            document.querySelector(`${this.container} [data-id="${ID}"] input`).value = findEl.quantity;
+            this.sum();
+            this.showCurrentCount();
+            this.showCurrentAmount();
+          }
+          else {  // ! если такого товара еще нет в корзине
+            let product = list.goods.find(curEl => {
+              return curEl.id_product == ID
+            });
+            this.goods.push({
+              id_product: product.id_product,
+              product_name: product.product_name,
+              price: product.price,
+              quantity: 1,
+            })
+            this.render();
+            this.addEventRemoveProduct(ID);
+          }
+
+          console.log(data.result, ID, findEl);
+        }
+        else {
+          console.log('Error: Товар не добавлен!');
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -181,14 +235,25 @@ class CartList extends ProductList {
     fetch(`${API}/deleteFromBasket.json`)
       .then(response => response.json())
       .then(data => {
-        /*
-          Как я могу отсюда обратится к элементам объекта CartList ?
-        */
+
         if (data.result == 1) {
-          console.log(
-            data.result
-            , event.target.parentNode.parentNode.getAttribute('data-id')
-          )
+          let product = event.target.parentNode.parentNode;
+          let ID = product.getAttribute('data-id');
+          for (let x in this.goods) {
+            if (this.goods[x].id_product == ID) {
+              // delete this.goods[x];
+              this.goods.splice(x, 1);
+              break;
+            }
+          }
+          // delete this._allProducts[ID];
+          this._allProducts.splice(ID, 1);
+          product.remove();
+          this.sum();
+          this.showCurrentCount();
+          this.showCurrentAmount();
+
+          console.log(ID, this.goods, this._allProducts);
         }
         else {
           clonsole.log('Error: Удаление не выполнено!')
@@ -197,6 +262,16 @@ class CartList extends ProductList {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  addEventRemoveProduct(ID) {
+    const tmID = setInterval(() => {
+      let node = document.querySelector(`${this.container} [data-id="${ID}"] .del-btn`);
+      if (node) {
+        clearInterval(tmID);
+        node.addEventListener('click', zzz => this.removeProduct(zzz));
+      }
+    }, 300)
   }
 }
 
@@ -215,7 +290,7 @@ class CartItem extends ProductItem {
                 <h3>${this.title}</h3>
               </div>
               <div class="col3">
-                <input type="number" value="${this.quantity}" min="1">
+                <input type="number" value="${this.quantity}" min="1" disabled>
               </div>
               <div class="col4">
               <button class="del-btn">Удалить</button>

@@ -115,9 +115,13 @@ img {
     text-align: center;
 }
 
-.cart-list > .header {
-    font-weight: 700;
-    margin: 5px;
+.cart-list__amount > h4 {
+    text-align: right;
+    margin-right: 1.2rem;
+}
+
+.cart-list__amount > h3 {
+    text-align: center;
 }
 
 .product-row input[type="number"] {
