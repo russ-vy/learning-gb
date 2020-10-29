@@ -1,29 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Интернет-магазин</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>Lesson 4</title>
 </head>
+
 <body>
-<header>
-    <div class="logo">Интернет-магазин</div>
-    <div class="cart">
-        <form action="#" class="search-form">
-            <input type="text" class="search-field">
-            <button class="btn-search" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-        <button class="btn-cart" type="button">Корзина</button>
-        <div class="cart-block invisible"></div>
-    </div>
-</header>
-<main>
-    <div class="products"></div>
-</main>
-<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-<script src="js/main.js"></script>
+    <script>
+        // Вариант 1
+        // let regExp = new RegExp('выражение', 'флаги');
+
+        // Вариант 2
+        // let regExp = /регулярноеВыражение/флаги;
+
+        // Флаги
+        // i - поиск без учета регистра
+        // g - множественный поиск
+        // m - многострочный поиск
+
+        let str = 'Язык JavaScript называется так из-за популярности языка Java';
+        // let regExp = new RegExp('java', 'i');
+        //
+        // console.log(regExp);
+
+        // String Methods
+        // search
+        // -1 - вхождений не найдено
+        // возвращает индекс первого вхождения
+
+        // console.log(str.search(regExp));
+
+        // match
+        // null - если ничего не найдено
+        // возвращает массив-объект с подробной информацией
+        // если используем флаг g, то возвращается массив вхождений
+
+        // console.log(str.match(/java/ig));
+
+        // replace
+        // console.log('+7 (000)000-00-00'.replace('-', ':'));
+        // console.log('+7 (000)000-00-00'.replace(/-/g, ':'));
+
+        let name = 'Snow, John';
+
+        // console.log(name.replace(/([a-z]+), ([a-z]+)/i, '$2 $1'));
+        // console.log(name.replace(/([a-z]+), ([a-z]+)/i, 'Было: $&; Стало: $2 $1'));
+
+        // Классы
+        // \d - [0123456789] - [0-9]
+        // \D - [^0123456789] - [^0-9]
+        // \w - [a-z0-9_]
+        // \W - [^a-z0-9_]
+        // \s - space, tab, \n
+        // \S
+        // \b - граница слова
+        // \B
+        // [а-яА-ЯёЁ]
+
+        // Квантификаторы
+        // {m} - строго m раз
+        // {m,n} - от m до n
+        // {m,} - от m до бесконечности
+        // {,n} - от 0 до n раз
+        // сокращения
+        // + - {1,}
+        // * - {0,}
+        // ? - {0,1}
+
+        // console.log('+7-(000) 000:00-00'.replace(/\D/g, '')); // 70000000000
+        // console.log('+7-(000) 000:00-00'.match(/\d+/g).join('')); // 70000000000
+
+        // console.log('color colour'.match(/colou?r/g));
+        // console.log('color colour colotr colosr colo2r'.match(/colo[ut]?r/g));
+
+        // Границы слова
+        // console.log('Язык JavaScript это не Java вам =)'.match(/\bjava\B/i));
+
+        // Начало и конец строки
+        // console.log('JavaScript это не Java'.match(/^java/i));
+        // console.log('JavaScript это не Java'.match(/java$/i));
+        // console.log(name.match(/^[a-z]{4,10}$/i));
+
+        // console.log('Chapter 7.2 7h6'.match(/\d\.\d/g));
+
+        // regExp methods
+        // test (true || false)
+        // console.log(/java/i.test(str));
+
+        // exec
+        /*
+        let result;
+        let regExp2 = /java/ig;
+    
+        console.log(`Начальный индекс lastIndex ${regExp2.lastIndex}`);
+        while(result = regExp2.exec(str)) {
+            console.log(result);
+            console.log(`Текущий lastIndex ${regExp2.lastIndex}`);
+        }
+        console.log(`Конечный lastIndex ${regExp2.lastIndex}`);
+        */
+
+        let text = '
+        One: 'Hi Mary.' Two: 'Oh, hi.'
+        One: 'How are you doing?'
+        Two: 'I'm doing alright.How about you ? '
+            One: 'Not too bad. The weather is great isn't it ? '
+            Two: 'Yes. It's absolutely beautiful today.'
+        One: 'I wish it was like this more frequently.'
+        Two: 'Me too.'
+        One: 'So where are you going now?'
+        Two: 'I'm going to meet a friend of mine at the department store'
+        One: 'Going to do a little shopping?'
+        Two: 'Yeah, I have to buy some presents for my parents.'
+        One: 'What's the occasion ? '
+            Two: 'It's their anniversary.'
+        One: 'That's great.Well, you better get going.You don't want to be late.'
+        Two: 'I'll see you next time.'
+        One: 'Sure.' Bye.'
+        ';
+
+
+    </script>
 </body>
+
 </html>
