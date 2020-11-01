@@ -25,26 +25,37 @@
         <div class="hamburger">
             <fieldset>
                 <legend>Размер гамбургера</legend>
-                <p>
-                    <label><input data-price="100" data-calory="40" type="radio" name="bread" id="big"
-                            checked>Большой</label>
-                    <label><input data-price="50" data-calory="20" type="radio" name="bread"
-                            id="small">Маленький</label>
-                </p>
+                <div>
+                    <label><input data-price="100" data-calory="40" type="radio" name="bread" id="big" checked>Большой
+                        <span>(100 рублей, 40 калорий)</span></label>
+                    <label><input data-price="50" data-calory="20" type="radio" name="bread" id="small">Маленький
+                        <span>(50
+                            рублей, 20 калорий)</span></label>
+                </div>
             </fieldset>
 
             <fieldset>
                 <legend>Начинка</legend>
-                <p>
-                    <label><input data-price="10" data-calory="20" name="basic" type="checkbox" checked>Сыр</label>
-                    <label><input data-price="20" data-calory="5" name="basic" type="checkbox" checked>Салат</label>
-                    <label><input data-price="15" data-calory="10" name="basic" type="checkbox">Картофель</label>
-                    <label><input data-price="15" data-calory="0" name="optional" type="checkbox">Приправа</label>
-                    <label><input data-price="20" data-calory="5" name="optional" type="checkbox"
-                            checked>Майонез</label>
-                </p>
+                <div>
+                    <label><input data-price="10" data-calory="20" name="basic" type="radio" checked>Сыр <span>(+10
+                            рублей,
+                            +20 калорий)</span></label>
+                    <label><input data-price="20" data-calory="5" name="basic" type="radio">Салат <span>(+20
+                            рублей, +5 калорий)</span></label>
+                    <label><input data-price="15" data-calory="10" name="basic" type="radio">Картофель <span>(+15
+                            рублей,
+                            +10 калорий)</span></label>
+                    <div class="dop">
+                        <label><input data-price="15" data-calory="0" name="optional" type="checkbox">Приправа
+                            <span>(+15
+                                рублей,
+                                +0 калорий)</span></label>
+                        <label><input data-price="20" data-calory="5" name="optional" type="checkbox" checked>Майонез
+                            <span>(+20 рублей, +5 калорий)</span></label>
+                    </div>
+                </div>
             </fieldset>
-
+            <a class="btn" href="#">Расчёт</a>
             <p class="message"></p>
         </div>
     </main>

@@ -22,7 +22,7 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
  * Описываем базовые классы
  */
 class List {
-  constructor(url, container, list = listContext){
+  constructor(url, container, list = listContext) {
     this.container = container;
     this.list = list; // словарь для классов строка 213
     this.url = url;
@@ -37,7 +37,7 @@ class List {
    * @param url
    * @returns {Promise<any | never>}
    */
-  getJson(url){
+  getJson(url) {
     return fetch(url ? url : `${API + this.url}`)
       .then(result => result.json())
       .catch(error => {
@@ -49,7 +49,7 @@ class List {
    * обработка полученных данных
    * @param data
    */
-  handleData(data){
+  handleData(data) {
     this.goods = [...data];
     this.render();
   }
@@ -58,12 +58,12 @@ class List {
    * подсчет стоимости всех товаров
    * @returns {*|number}
    */
-  calcSum(){
+  calcSum() {
     return this.allProducts.reduce((accum, item) => accum += item.price, 0);
   }
-  render(){
+  render() {
     const block = document.querySelector(this.container);
-    for (let product of this.goods){
+    for (let product of this.goods) {
       console.log(this.constructor.name);
       const productObj = new this.list[this.constructor.name](product);
       console.log(productObj);
@@ -76,31 +76,31 @@ class List {
    * метод поиска товаров
    * @param value - поисковый запрос
    */
-  filter(value){
+  filter(value) {
     const regexp = new RegExp(value, 'i');
     this.filtered = this.allProducts.filter(product => regexp.test(product.product_name));
     this.allProducts.forEach(el => {
       const block = document.querySelector(`.product-item[data-id="${el.id_product}"]`);
-      if(!this.filtered.includes(el)){
+      if (!this.filtered.includes(el)) {
         block.classList.add('invisible');
       } else {
         block.classList.remove('invisible');
       }
     })
   }
-  _init(){
+  _init() {
     return false
   }
 }
 
-class Item{
-  constructor(el, img = 'https://placehold.it/200x150'){
+class Item {
+  constructor(el, img = 'https://placehold.it/200x150') {
     this.product_name = el.product_name;
     this.price = el.price;
     this.id_product = el.id_product;
     this.img = img;
   }
-  render(){
+  render() {
     return ``;
   }
 }
@@ -109,16 +109,16 @@ class Item{
  * Наследуемся от базовых классов
  */
 class ProductsList extends List {
-  constructor(cart, container = '.products', url = "/catalogData.json"){
+  constructor(cart, container = '.products', url = "/catalogData.json") {
     super(url, container);
     this.cart = cart;
     this.getJson()
       .then(data => this.handleData(data));
   }
 
-  _init(){
+  _init() {
     document.querySelector(this.container).addEventListener('click', e => {
-      if(e.target.classList.contains('buy-btn')){
+      if (e.target.classList.contains('buy-btn')) {
         this.cart.addProduct(e.target);
       }
     });
@@ -129,7 +129,7 @@ class ProductsList extends List {
   }
 }
 
-class ProductItem extends Item{
+class ProductItem extends Item {
   render() {
     return `<div class="product-item" data-id="${this.id_product}">
                 <img src="${this.img}" alt="Some img">
@@ -145,8 +145,8 @@ class ProductItem extends Item{
   }
 }
 
-class Cart extends List{
-  constructor(container = ".cart-block", url = "/getBasket.json"){
+class Cart extends List {
+  constructor(container = ".cart-block", url = "/getBasket.json") {
     super(url, container);
     this.getJson()
       .then(data => {
@@ -158,13 +158,13 @@ class Cart extends List{
    * добавление товара
    * @param element
    */
-  addProduct(element){
+  addProduct(element) {
     this.getJson(`${API}/addToBasket.json`)
       .then(data => {
-        if(data.result === 1){
+        if (data.result === 1) {
           let productId = +element.dataset['id'];
           let find = this.allProducts.find(product => product.id_product === productId);
-          if(find){
+          if (find) {
             find.quantity++;
             this._updateCart(find);
           } else {
@@ -190,13 +190,13 @@ class Cart extends List{
    * удаление товара
    * @param element
    */
-  removeProduct(element){
+  removeProduct(element) {
     this.getJson(`${API}/deleteFromBasket.json`)
       .then(data => {
-        if(data.result === 1){
+        if (data.result === 1) {
           let productId = +element.dataset['id'];
           let find = this.allProducts.find(product => product.id_product === productId);
-          if(find.quantity > 1){ // если товара > 1, то уменьшаем количество на 1
+          if (find.quantity > 1) { // если товара > 1, то уменьшаем количество на 1
             find.quantity--;
             this._updateCart(find);
           } else { // удаляем
@@ -214,17 +214,17 @@ class Cart extends List{
    * @param product
    * @private
    */
-  _updateCart(product){
+  _updateCart(product) {
     let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
     block.querySelector('.product-quantity').textContent = `Количество: ${product.quantity}`;
     block.querySelector('.product-price').textContent = `${product.quantity * product.price} ₽`;
   }
-  _init(){
+  _init() {
     document.querySelector('.btn-cart').addEventListener('click', () => {
       document.querySelector(this.container).classList.toggle('invisible');
     });
     document.querySelector(this.container).addEventListener('click', e => {
-      if(e.target.classList.contains('del-btn')){
+      if (e.target.classList.contains('del-btn')) {
         this.removeProduct(e.target);
       }
     })
@@ -232,12 +232,12 @@ class Cart extends List{
 
 }
 
-class CartItem extends Item{
-  constructor(el, img = 'https://placehold.it/50x100'){
+class CartItem extends Item {
+  constructor(el, img = 'https://placehold.it/50x100') {
     super(el, img);
     this.quantity = el.quantity;
   }
-  render(){
+  render() {
     return `<div class="cart-item" data-id="${this.id_product}">
             <div class="product-bio">
             <img src="${this.img}" alt="Some image">
@@ -248,7 +248,7 @@ class CartItem extends Item{
         </div>
         </div>
         <div class="right-block">
-            <p class="product-price">${this.quantity*this.price} ₽</p>
+            <p class="product-price">${this.quantity * this.price} ₽</p>
             <button class="del-btn" data-id="${this.id_product}">&times;</button>
         </div>
         </div>`
@@ -262,3 +262,52 @@ const listContext = {
 
 let cart = new Cart();
 let products = new ProductsList(cart);
+
+
+class FeedbackForm {
+  constructor(selector) {
+    this.selector = selector
+
+    this.setup()
+  }
+
+  setup() {
+    document.querySelector(this.selector).addEventListener('input', ev => {
+      if (ev.target.classList.contains('err')) {
+        ev.target.classList.remove('err');
+      }
+    });
+    this.form = document.querySelector(this.selector).addEventListener('submit', function (event) {
+
+      let prevent = false
+
+      for (let el of this.elements) {
+        console.log(el.name, el.value);
+
+        if (el.name == 'name' && !/^[a-zа-яё]+$/i.test(el.value)) {
+          prevent = true;
+          el.classList.add('err');
+        }
+        if (el.name == 'phone' && !/\+7\(\d{3}\)\d{3}-\d{4}/.test(el.value)) {
+          prevent = true;
+          el.classList.add('err');
+        }
+        if (el.name == 'email' && !/\w+(\.|-)?\w+@\w+\.\w+/i.test(el.value)) {
+          prevent = true;
+          el.classList.add('err');
+        }
+      }
+
+      if (prevent) {
+        event.preventDefault()
+      }
+    });
+  }
+
+  open() {
+    document.querySelector('.feedback-form').classList.toggle('invisible');
+  }
+}
+
+let feedback = new FeedbackForm('#feedback');
+document.querySelector('.btn-menu').addEventListener('click', feedback.open);
