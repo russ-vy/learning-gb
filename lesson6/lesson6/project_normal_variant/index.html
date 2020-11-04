@@ -13,17 +13,12 @@
         <header>
             <div class="logo">Интернет-магазин</div>
             <div class="cart">
-                <form action="#" class="search-form" @submit.prevent="filter">
-                    <input type="text" class="search-field" v-model="userSearch">
-                    <button class="btn-search" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                <search ref="search" @submit="filter()"></search>
                 <cart ref="cart"></cart>
             </div>
         </header>
         <main>
-            <!--        <error-component></error-component>-->
+            <errors ref="errors"></errors>
             <products ref="products"></products>
         </main>
     </div>
@@ -33,6 +28,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/CartComp.js"></script>
     <script src="js/ProducComp.js"></script>
+    <script src="./js/SearchComp.js"></script>
+    <script src="./js/ErrorComp.js"></script>
     <script src="js/main.js"></script>
 </body>
 

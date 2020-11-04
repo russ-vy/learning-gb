@@ -11,7 +11,7 @@ Vue.component('cart', {
         addProduct(product) {
             this.$parent.getJson(`${API}/addToBasket.json`)
                 .then(data => {
-                    if (data.result === 1) {
+                    if (data && data.result === 1) {
                         let find = this.cartItems.find(el => el.id_product === product.id_product);
                         if (find) {
                             find.quantity++;

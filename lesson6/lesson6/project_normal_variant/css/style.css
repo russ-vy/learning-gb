@@ -166,3 +166,22 @@ img {
     border: none;
     border-bottom: 2px solid #fafafa;
 }
+.back-hiden {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.modal{
+    padding: 3rem;
+    margin: 40vh auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.modal-footer{
+    padding-top: 1rem;
+}
