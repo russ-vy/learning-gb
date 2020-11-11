@@ -1,9 +1,11 @@
 const fs = require('fs');
 const cart = require('./cart');
+const stats = require('./stats');
 
 const actions = {
   add: cart.add,
   change: cart.change,
+  delete: cart.del,
 };
 
 const handler = (req, res, action, file) => {
@@ -11,11 +13,12 @@ const handler = (req, res, action, file) => {
     if (err) {
       res.sendStatus(404, JSON.stringify({result: 0, text: err}));
     } else {
-      const newCart = actions[action](JSON.parse(data), req);
+      const { newCart, product } = actions[action](JSON.parse(data), req);
       fs.writeFile(file, newCart, (err) => {
         if (err) {
           res.send('{"result": 0}');
         } else {
+          stats(action, product);
           res.send('{"result": 1}');
         }
       })

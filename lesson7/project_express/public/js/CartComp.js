@@ -24,14 +24,10 @@ Vue.component('cart', {
             }
         },
         remove(item) {
-            this.$parent.getJson(`${API}/deleteFromBasket.json`)
+            this.$parent.deleteJson(`api/cart/${item.id_product}`,item)
                 .then(data => {
-                    if(data.result === 1) {
-                        if(item.quantity>1){
-                            item.quantity--;
-                        } else {
-                            this.cartItems.splice(this.cartItems.indexOf(item), 1)
-                        }
+                    if (data.result === 1) {
+                        item.quantity > 1 ? item.quantity-- : this.cartItems.splice(this.cartItems.indexOf(item), 1)
                     }
                 })
         },
