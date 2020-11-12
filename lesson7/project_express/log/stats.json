@@ -1,0 +1,22 @@
+{
+    "date": "11.11.2020, 11:15:21",
+    "action": "delete",
+    "product": {
+        "product_name": "Мышка",
+        "id_product": 456
+    }
+}{
+    "date": "11.11.2020, 11:15:27",
+    "action": "add",
+    "product": {
+        "product_name": "Мышка",
+        "id_product": 456
+    }
+}{
+    "date": "11.11.2020, 11:15:28",
+    "action": "change",
+    "product": {
+        "product_name": "Мышка",
+        "id_product": 456
+    }
+}

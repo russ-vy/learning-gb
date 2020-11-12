@@ -1,4 +1,7 @@
 blank/
 source/
 info.txt
+
+.vscode/
 .idea/
+node_modules/
