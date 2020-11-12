@@ -1,0 +1,52 @@
+h1 {
+  text-align: center;
+  letter-spacing: 0.5rem;
+}
+
+.hamburger {
+  width: 50%;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+.hamburger fieldset {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 40%;
+          flex: 1 1 40%;
+}
+
+div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.5rem;
+}
+
+div .dop {
+  border-top: 2px solid silver;
+}
+
+div label {
+  line-height: 2rem;
+}
+
+div label span {
+  font-size: 1rem;
+}
+
+.btn {
+  margin: 5px;
+}

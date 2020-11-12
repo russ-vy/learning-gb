@@ -1,3 +1,7 @@
 blank/
-*/source/
-*/info.txt
+source/
+info.txt
+
+.vscode/
+.idea/
+node_modules/
